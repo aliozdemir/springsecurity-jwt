@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import springsecurityjwt.service.DigitalUserDetailsService;
+import springsecurityjwt.util.Constant;
 import springsecurityjwt.util.JwtUtil;
 
 import javax.servlet.FilterChain;
@@ -28,10 +29,10 @@ public class JwtValidationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        final String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader(Constant.HEADER_STRING);
         String jwt = null;
         String username = null;
-        if(authHeader != null && authHeader.startsWith("Bearer ")){
+        if(authHeader != null && authHeader.startsWith(Constant.TOKEN_PREFIX)){
             jwt = authHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
